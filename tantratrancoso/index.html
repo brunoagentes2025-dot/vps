@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tantra Trancoso — Massagem Tântrica</title>
+<link rel="icon" type="image/png" href="logo_mark.png">
+<link rel="apple-touch-icon" href="logo_mark.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #140D08;
+    --panel:     #1C130C;
+    --panel-2:   #191108;
+    --gold:      #C9A063;
+    --gold-soft: #efca97;
+    --bronze:    #6B4E2B;
+    --ivory:     #EDE3D3;
+    --muted:     #9C8E7A;
+    --line:      rgba(201,160,99,0.22);
+    --max: 640px;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(ellipse 1100px 700px at 10% -5%, rgba(201,160,99,0.16), transparent 60%),
+      radial-gradient(ellipse 1000px 800px at 105% 35%, rgba(107,78,43,0.26), transparent 55%),
+      radial-gradient(ellipse 900px 700px at -5% 90%, rgba(201,160,99,0.13), transparent 60%),
+      linear-gradient(160deg, #180F09 0%, var(--bg) 45%, #100A06 100%);
+    color:var(--ivory);
+    font-family:'Jost', sans-serif;
+    font-weight:300;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  h1,h2,h3,.brand{
+    font-family:'Cormorant Garamond', serif;
+    font-weight:500;
+    margin:0;
+    letter-spacing:0.02em;
+  }
+
+  a{ color:inherit; }
+
+  ::selection{ background:var(--gold-soft); color:#120C08; }
+
+  @media (prefers-reduced-motion: no-preference){
+    .reveal{
+      opacity:0;
+      transform:translateY(14px);
+      transition:opacity 0.9s ease, transform 0.9s ease;
+    }
+    .reveal.in{
+      opacity:1;
+      transform:translateY(0);
+    }
+  }
+
+  /* ---------- shared section scaffolding ---------- */
+  section{
+    position:relative;
+    padding:96px 28px;
+    overflow:hidden;
+  }
+  section.panel{
+    background:
+      radial-gradient(ellipse 1000px 600px at 90% -10%, rgba(201, 160, 99, 0.18), transparent 60%), radial-gradient(ellipse 800px 700px at -5% 105%, rgba(107, 78, 43, 0.28), transparent 55%), linear-gradient(175deg, #372517 0%, #2b1c10 100%);
+  }
+  section.panel-2{
+    background:
+      #120f0b;
+  }
+  section:not(.panel):not(.panel-2):not(.hero){
+    background:#1c140c;
+  }
+
+  .wrap{
+    max-width:var(--max);
+    margin:0 auto;
+    position:relative;
+    z-index:2;
+    text-align:center;
+  }
+
+  .eyebrow-rule{
+    width:44px;
+    height:1px;
+    background:var(--bronze);
+    margin:22px auto 30px;
+  }
+
+  h2.title{
+    font-size:clamp(42px,4.2vw,36px);
+    color:var(--gold);
+    font-style:italic;
+    font-weight:500;
+  }
+
+  p{
+    font-size:18px;
+    line-height:1.55;
+    color:var(--ivory);
+    margin:0 0 20px;
+    max-width:520px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  p:last-child{ margin-bottom:0; }
+  p.muted{ color:var(--muted); }
+
+  .cta{
+    display:inline-block;
+    margin-top:36px;
+    padding:17px 42px;
+    border:1px solid var(--gold-soft);
+    border-radius:999px;
+    color:var(--gold);
+    text-decoration:none;
+    font-family:'Jost', sans-serif;
+    font-size:14px;
+    letter-spacing:0.16em;
+    font-weight:500;
+    background:#2b1f0f91;
+    position:relative;
+    transition:color 0.35s ease, box-shadow 0.35s ease;
+  }
+  .cta::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    border-radius:999px;
+    background:var(--gold);
+    opacity:0;
+    transition:opacity 0.35s ease;
+    z-index:-1;
+  }
+  .cta:hover{ color:#140D08; }
+  .cta:hover::before{ opacity:1; }
+  .cta:focus-visible{ outline:2px solid var(--gold); outline-offset:4px; }
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .cta svg{
+    width:16px;
+    height:16px;
+    flex:none;
+    fill:currentColor;
+  }
+
+  /* ---------- hero ---------- */
+   /* ---------- hero ---------- */
+  .hero{
+    padding:0;
+    min-height:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    isolation:isolate;
+  }
+  .hero-bg{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+  }
+  .hero-bg .parallax-img{
+    position:absolute;
+    inset:-12% 0;
+    width:100%;
+    height:124%;
+    object-fit:cover;
+    filter:sepia(18%) saturate(85%) brightness(0.62);
+    will-change:transform;
+  }
+  .hero-bg::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      linear-gradient(180deg, rgba(20,13,8,0.45) 0%, rgba(20,13,8,0.6) 45%, var(--bg) 97%),
+      radial-gradient(ellipse 700px 500px at 50% 20%, rgba(201,160,99,0.16), transparent 65%);
+  }
+  .hero .wrap{ padding:64px 12px 56px; }
+  .hero .brand-mark{
+    width:80vw;
+    max-width:340px;
+    height:auto;
+    mix-blend-mode:screen;
+    opacity:0.96;
+    margin-top:8px;
+  }
+
+  .hero .kicker{
+    margin-top:32px;
+    font-size:clamp(34px,7vw,52px);
+    color:var(--ivory);
+    letter-spacing:0.01em;
+    text-shadow:0 2px 24px rgba(0,0,0,0.35);
+  }
+  .hero .sub{
+    margin-top:14px;
+    font-family:'Jost',sans-serif;
+    font-weight:300;
+    font-size:16px;
+    letter-spacing:0.14em;
+    color:var(--gold-soft);
+  }
+
+  @media (min-width:640px){
+    .hero .wrap{ padding:96px 0 80px; }
+  }
+
+  /* ---------- sessions block ---------- */
+  .sessions-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    align-items:center;
+    margin:34px 0 30px;
+  }
+  .sessions-list .row{
+    font-family:'Cormorant Garamond', serif;
+    font-size:30px;
+    color:var(--ivory);
+  }
+
+  /* ---------- about ---------- */
+  .about-photo{
+  width: 256px;
+/*    height: 256px;*/
+/*    border-radius:50%;*/
+    object-fit:cover;
+    object-position:top center;
+    margin:0 auto 26px;
+    display:block;
+/*
+    border:1px solid var(--line);
+    box-shadow:0 0 0 8px rgba(201,160,99,0.05);
+*/
+    filter:sepia(8%) saturate(105%);
+  }
+
+  .about-name{
+    font-style:italic;
+    color:var(--gold);
+    font-size:clamp(50px,5vw,40px);
+    margin-bottom:22px;
+  }
+
+  footer{
+    padding:56px 28px 44px;
+    text-align:center;
+    background: #100b07;
+  }
+  footer .brand-mark-small{
+    width:70px;
+    margin:0 auto 18px;
+    mix-blend-mode:screen;
+    opacity:0.85;
+  }
+  footer p{
+    font-size:12px;
+    letter-spacing:0.08em;
+    color:var(--muted);
+    max-width:none;
+  }
+
+  @media (max-width:480px){
+    section{ padding:76px 22px; }
+  }
+</style>
+	
+	
+	
+<!-- SEO básico -->
+<meta name="description" content="Massagem tântrica em Trancoso com Daniël, terapeuta com mais de 22 anos de experiência. Sessões individuais de 1h30 e 2h30, e a vivência para casais 'Arte de Tocar'. Atendimento em domicílio, hotéis e pousadas.">
+<meta name="keywords" content="massagem tântrica Trancoso, massagem tântrica Bahia, terapeuta tântrico, tantra para casais, massagem sensitiva, Arte de Tocar, Daniël massagem tântrica">
+<meta name="author" content="Tantra Trancoso">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://tantratrancoso.com/">
+
+<!-- Open Graph / Facebook / WhatsApp -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Tantra Trancoso">
+<meta property="og:title" content="Tantra Trancoso — Massagem Tântrica">
+<meta property="og:description" content="Uma experiência de sensibilidade e conexão. Sessões de massagem tântrica com Daniël em Trancoso, e a vivência para casais 'Arte de Tocar'.">
+<meta property="og:url" content="https://tantratrancoso.com/">
+<meta property="og:image" content="https://tantratrancoso.com/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Tantra Trancoso — Massagem Tântrica">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tantra Trancoso — Massagem Tântrica">
+<meta name="twitter:description" content="Uma experiência de sensibilidade e conexão. Sessões de massagem tântrica com Daniël em Trancoso.">
+<meta name="twitter:image" content="https://tantratrancoso.com/og-image.jpg">
+
+<!-- Dados estruturados (Schema.org) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Tantra Trancoso",
+  "image": "https://tantratrancoso.com/og-image.jpg",
+  "description": "Massagem tântrica em Trancoso com o terapeuta Daniël. Sessões individuais e vivência para casais, com atendimento em domicílio, hotéis e pousadas.",
+  "telephone": "+5573999315208",
+  "priceRange": "$$",
+  "areaServed": "Trancoso, Bahia, Brasil",
+  "url": "https://tantratrancoso.com/",
+  "sameAs": []
+}
+</script>	
+</head>
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-bg">
+    <img class="parallax-img" id="heroParallax" src="" alt="">
+  </div>
+  <div class="wrap">
+    <img class="brand-mark reveal" src="logo2.png" alt="Tantra Trancoso">
+
+    <h1 class="kicker reveal">Massagem Tântrica</h1>
+	  <p class="sub reveal">UMA EXPERIÊNCIA DE SENSIBILIDADE</br>E CONEXÃO</p>
+
+    <div class="reveal" style="margin-top:34px;padding: 0 0px;">
+      <p>A massagem tântrica é uma técnica desenvolvida para liberar tensões, despertar novas sensações e percepções corporais.</p>
+      <p>Durante a sessão, todo o corpo é massageado, sem divisões ou tabus. Variações de toque, ritmo e intensidade proporcionam diferentes estímulos e ampliam a capacidade de sentir.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ O TOQUE GENITAL ============ -->
+<section class="panel" style="">
+  <div class="wrap reveal">
+    <h2 class="title">O Toque Genital</h2>
+    <div class="eyebrow-rule"></div>
+    <p>A região genital também é massageada, de forma técnica e integrada à experiência.</p>
+    <p>Essa prática favorece o conhecimento da própria sexualidade, amplia a resposta sensorial e auxilia na descoberta de outras formas de estímulo e prazer.</p>
+    <p>Pode contribuir em questões relacionadas à dificuldade ou ausência de orgasmo, dor ou desconforto, baixa sensibilidade, padrões masturbatórios condicionados, ejaculação precoce e dificuldades de ereção.</br></br>
+    Essa etapa é conversada previamente e acontece somente com consentimento, sempre dentro dos limites estabelecidos por cada pessoa.</p>
+  </div>
+</section>
+
+<!-- ============ BENEFÍCIOS ============ -->
+<section >
+  <div class="wrap reveal" >
+    <h2 class="title">Benefícios da Massagem Tântrica</h2>
+    <div class="eyebrow-rule"></div>
+    <p>Entre os benefícios estão relaxamento, redução do estresse e das tensões, maior consciência corporal, autoconhecimento e ampliação do repertório sensorial.</p>
+    <p>A prática também pode favorecer uma relação mais consciente com a sexualidade e abrir novas possibilidades na forma de vivenciar o prazer.</p>
+  </div>
+</section>
+
+<!-- ============ SESSÕES ============ -->
+<section class="panel">
+  <div class="wrap reveal">
+    <h2 class="title">Sessões</h2>
+    <div class="eyebrow-rule"></div>
+    <div class="sessions-list">
+      <div class="row">Sessão de 1h30</div>
+      <div class="row">Sessão de 2h30</div>
+    </div>
+	  <p class="muted">Atendimento realizado em domicílio,</br>hotéis e pousadas.</p>
+    <a class="cta" href="https://wa.me/5573999315208" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.22.6 4.31 1.65 6.1L4 29l8.06-1.6a12.9 12.9 0 0 0 3.96.62h.01c6.62 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 21.9c-1.9 0-3.7-.52-5.25-1.5l-.38-.23-4.78.95.98-4.65-.25-.38a10.05 10.05 0 0 1-1.53-5.3c0-5.5 4.48-9.98 9.99-9.98 5.5 0 9.98 4.48 9.98 9.98s-4.47 9.98-9.98 9.98zm5.47-7.48c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>Agendar pelo WhatsApp</a>
+  </div>
+</section>
+
+<!-- ============ ARTE DE TOCAR ============ -->
+<section class="panel-2" >
+  <div class="wrap reveal">
+    <h1 style="font-size:clamp(36px,6vw,50px);color:var(--gold);font-style:italic;">Arte de Tocar</h1>
+    <p class="sub" style="margin-top:12px;">VIVÊNCIA PARA CASAIS</p>
+    <div class="eyebrow-rule"></div>
+    <p>Uma experiência prática criada para ampliar a intimidade, a conexão e as possibilidades de prazer a dois.</p>
+    <p>Durante três horas, o casal aprende e experimenta técnicas de massagem sensorial, diferentes formas de toque, ritmos e intensidades, descobrindo novas maneiras de proporcionar e receber prazer.</p>
+    <p>A vivência também inclui técnicas de toque na região genital, ampliando o repertório sensorial e oferecendo recursos que podem ser incorporados à intimidade do casal.</p>
+    <p style="font-family:'Cormorant Garamond',serif;font-size:22px;color:var(--gold-soft);font-style:italic;margin-top:28px;">Duração: 3 horas</p>
+    <p class="muted">Para mais informações e valores,</br>entre em contato.</p>
+    <a class="cta" href="https://wa.me/5573999315208" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.22.6 4.31 1.65 6.1L4 29l8.06-1.6a12.9 12.9 0 0 0 3.96.62h.01c6.62 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 21.9c-1.9 0-3.7-.52-5.25-1.5l-.38-.23-4.78.95.98-4.65-.25-.38a10.05 10.05 0 0 1-1.53-5.3c0-5.5 4.48-9.98 9.99-9.98 5.5 0 9.98 4.48 9.98 9.98s-4.47 9.98-9.98 9.98zm5.47-7.48c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>Quero saber mais</a>
+  </div>
+</section>
+
+<!-- ============ SOBRE O TERAPEUTA ============ -->
+<section>
+  <div class="wrap reveal">
+    <h2 class="title" style="color:var(--ivory);font-style:normal;font-size:24px;letter-spacing:0.16em;font-family:'Jost',sans-serif;font-weight:500;margin-bottom: 30px;">SOBRE O TERAPEUTA</h2>
+    <img class="about-photo reveal" src="daniel1.png" alt="Daniël, terapeuta tântrico">
+    <div class="about-name">Daniël</div>
+    <p>Há mais de 22 anos atua na área integrativa e possui formação pela Humani Amor. Terapeuta tântrico, analista comportamental e Mestre Reiki, desenvolve atendimentos individualizados voltados ao autoconhecimento e ao bem-estar.</p>
+    <a class="cta" href="https://wa.me/5573999315208" target="_blank" rel="noopener"><svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><path d="M16.02 3C9.4 3 4 8.4 4 15.02c0 2.22.6 4.31 1.65 6.1L4 29l8.06-1.6a12.9 12.9 0 0 0 3.96.62h.01c6.62 0 12.02-5.4 12.02-12.02C28.05 8.4 22.65 3 16.02 3zm0 21.9c-1.9 0-3.7-.52-5.25-1.5l-.38-.23-4.78.95.98-4.65-.25-.38a10.05 10.05 0 0 1-1.53-5.3c0-5.5 4.48-9.98 9.99-9.98 5.5 0 9.98 4.48 9.98 9.98s-4.47 9.98-9.98 9.98zm5.47-7.48c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.65-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.07-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.5h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.07 2.87 1.22 3.07.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.69.63.71.23 1.36.2 1.87.12.57-.09 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35z"/></svg>Agende sua sessão agora</a>
+  </div>
+</section>
+
+<footer>
+	<div style="margin: 0 auto;text-align: center;">
+<a href="https://www.instagram.com/tantra.trancoso" target="_blank" style="margin:0 auto">
+	<img class="" src="instagram.png" alt="" style="    width: 52px;">
+		</a>
+	</div>
+  <img class="brand-mark-small" src="logo_mark.png" alt="">
+  <p>TANTRA TRANCOSO — (73) 99931-5208</p>
+</footer>
+
+<script>
+  const heroImg = document.getElementById('heroParallax');
+  const heroSection = document.querySelector('.hero');
+  let ticking = false;
+  function updateParallax(){
+    const rect = heroSection.getBoundingClientRect();
+    const offset = rect.top * 0.35; /* movimento mais lento que o scroll */
+    heroImg.style.transform = `translate3d(0, ${offset}px, 0)`;
+    ticking = false;
+  }
+  function onScroll(){
+    if(!ticking){
+      window.requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    window.addEventListener('scroll', onScroll, { passive:true });
+    updateParallax();
+  }
+
+  const items = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window){
+    const io = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+      });
+    }, { threshold:0.15 });
+    items.forEach(i=>io.observe(i));
+  } else {
+    items.forEach(i=>i.classList.add('in'));
+  }
+</script>
+
+</body>
+</html>
