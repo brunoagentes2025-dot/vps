@@ -238,7 +238,7 @@
   // ID do evento vem pela URL: painel-eventos.html?evento=UUID-DO-EVENTO
   const EVENTO_ID = new URLSearchParams(location.search).get('evento');
 
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const card = document.getElementById('card');
   const fill = document.getElementById('progressFill');
@@ -261,7 +261,7 @@
   }
 
   async function buscarProximoPost() {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseClient
       .from('posts')
       .select('*')
       .eq('evento_id', EVENTO_ID)
@@ -276,7 +276,7 @@
   }
 
   async function marcarComoExibido(postId) {
-    const { error } = await supabase.rpc('marcar_exibido', { post_id_input: postId });
+    const { error } = await supabaseClient.rpc('marcar_exibido', { post_id_input: postId });
     if (error) console.error('Erro ao marcar como exibido:', error);
   }
 
@@ -311,7 +311,7 @@
 
   // ---------- REALTIME: reage a posts novos sem esperar o ciclo normal ----------
   if (EVENTO_ID) {
-    supabase
+    supabaseClient
       .channel('posts-evento-' + EVENTO_ID)
       .on('postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'posts', filter: 'evento_id=eq.' + EVENTO_ID },
@@ -325,7 +325,7 @@
       document.getElementById('hashtagLabel').textContent = 'defina ?evento=ID-DO-EVENTO na URL';
       return;
     }
-    const { data } = await supabase
+    const { data } = await supabaseClient
       .from('eventos')
       .select('hashtag')
       .eq('id', EVENTO_ID)
