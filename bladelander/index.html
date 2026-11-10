@@ -15,7 +15,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-
 h1{font-size:18px;margin:0}
 #wrap{width:100%;max-width:900px}
 canvas{width:100%;height:auto;display:block;background:#05060c;border-radius:10px;border:1px solid var(--line);touch-action:none}
-	canvas{aspect-ratio:9/5;display:block}
+	canvas{aspect-ratio:var(--ar,1.8);display:block}
 .panel{width:100%;max-width:900px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
 label{display:flex;flex-direction:column;gap:4px;font-size:14px}
 label span b{float:right;font-variant-numeric:tabular-nums}
@@ -29,7 +29,7 @@ small{opacity:.7}
 #wrap,.stage{position:relative}
 .fsb{position:absolute;right:8px;bottom:8px;padding:4px 9px;font-size:16px;background:rgba(0,0,0,.55)}
 #wrap.fs{position:fixed;inset:0;z-index:99;max-width:none;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center}
-#wrap.fs .stage{width:min(100vw,calc(100vh*1.8))}
+#wrap.fs .stage{width:min(100vw,calc(100vh*var(--ar,1.8)))}
 #wrap.fs canvas{border:0;border-radius:0}
 #wrap.fs .touch{position:absolute;left:0;right:0;bottom:10px;padding:0 10px;opacity:.55;max-width:none;width:auto}
 label.chk{flex-direction:row;align-items:center;gap:8px}
@@ -351,6 +351,13 @@ function step(dt){
   return s/(n+1);
 }
 function fit(){
+  var ar=1.8;
+  if($('wrap').classList.contains('fs')){            // tela cheia: acompanha a proporção real da tela
+    var a=window.innerWidth/window.innerHeight;
+    if(a>1.8)ar=Math.min(a,3);                       // 3 = limite para telas ultralargas
+  }
+  var nw=Math.round(H*ar);
+  if(W!==nw){W=nw;document.documentElement.style.setProperty('--ar',(W/H).toFixed(4));ctlAnchor()}
   var r=cv.getBoundingClientRect();if(!r.width)return;
   var dpr=Math.min(3,window.devicePixelRatio||1),
       w=Math.round(r.width*dpr),
@@ -605,6 +612,30 @@ function ctlInit(){
     document.body.classList.add('svgctl');          // esconde os botões antigos
   }).catch(function(){});
 }
+	
+	
+	var CTL_ANCHOR=true;   // true: botões da esquerda grudam na borda esquerda e os da direita na borda direita
+function ctlAnchor(){
+  var box=$('ctl'),svg=box.querySelector('svg');
+  if(!svg||!CTL_ANCHOR)return;
+  var vb=svg.viewBox&&svg.viewBox.baseVal;if(!vb||!vb.width)return;
+  var r=box.getBoundingClientRect();if(!r.width)return;
+  var s=Math.min(r.width/vb.width,r.height/vb.height),extra=Math.max(0,(r.width/s-vb.width)/2);
+  CTL_BTNS.forEach(function(b){
+    var el=null;b[1].forEach(function(n){if(!el)el=svgPick(box,n)});
+    if(!el)return;
+    if(b.side===undefined){var q=el.getBoundingClientRect();if(!q.width)return;b.side=(q.left+q.width/2-r.left)<r.width/2?-1:1}
+    b[1].forEach(function(n){[n,n+'_touch'].forEach(function(id){
+      var e=svgPick(box,id);if(!e)return;
+      if(e._tr===undefined)e._tr=e.getAttribute('transform')||'';
+      if(extra>0)e.setAttribute('transform','translate('+(b.side*extra)+',0) '+e._tr);
+      else if(e._tr)e.setAttribute('transform',e._tr);else e.removeAttribute('transform');
+    })});
+  });
+}
+window.addEventListener('resize',ctlAnchor);
+	
+	
 ctlInit();	
 var q=(new URLSearchParams(location.search).get('fase')||'1').replace(/[^\w.\-]/g,'');
 Fase.load(/\.svg$/i.test(q)?q:'fase'+q+'.svg').then(function(L){
