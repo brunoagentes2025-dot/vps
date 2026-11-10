@@ -42,11 +42,13 @@ label.chk{flex-direction:row;align-items:center;gap:8px}
 #ctl.on{display:block}
 .svgctl .touch{display:none!important}
 #fsb{z-index:6}	
+
+#again{display:noneX;position:absolute;left:20%;top:0%;transform:translateX(-50%);z-index:7;padding:6px 6px;font-size:clamp(15px,2.6vh,24px);font-weight:bold}	
 </style>
 </head>
 <body>
 <h1>🚀 Lunar Lander</h1>
-<div id="wrap"><div class="stage"><canvas id="c" width="900" height="500"></canvas><button id="fsb" class="fsb" title="Tela cheia (F)">⛶</button><div id="ctl"></div></div>
+<div id="wrap"><div class="stage"><canvas id="c" width="900" height="500"></canvas><button id="fsb" class="fsb" title="Tela cheia (F)">⛶</button><div id="ctl"></div><button id="again">↻</button></div>
 <div class="touch">
   <button id="bL">◀</button><button id="bU">▲</button><button id="bR">▶</button>
   <button id="bA">A</button><button id="bD">D</button>
@@ -560,7 +562,7 @@ function bind(id,name){var b=$(id);
   ['pointerup','pointerleave','pointercancel'].forEach(function(ev){b.addEventListener(ev,function(){keys[name]=false})});}
 bind('bU','up');bind('bL','a');bind('bR','d');bind('bA','l');bind('bD','r');
 cv.addEventListener('pointerdown',function(){if(!started)startGame()});
-$('rs').addEventListener('click',function(){newLevel();$('rs').blur()});
+$('rs').addEventListener('click',function(){newLevel();$('rs').blur()});$('again').addEventListener('click',function(){$('again').blur();newLevel()});
 /* ---------- botões do celular desenhados no SVG ---------- */
 var CTL_SVG='controles.svg';   // arquivo do SVG com os botões
 var BTN_TROCA=true;            // true: ao apertar, some o botão normal e aparece o _touch | false: o _touch aparece por cima
