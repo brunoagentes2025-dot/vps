@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Doações — Musk Fest</title>
+<!-- Todos os links abrem em outra aba (pagamentos costumam não funcionar dentro de um quadro). -->
+<base target="_blank">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Firjar:wght@100..800&family=Plus+Jakarta+Sans:wght@200..800&display=swap">
+<style>
+  /* =====================  ESTILO (mexa à vontade)  ===================== */
+  :root{--verde:#00ffb1}
+  *{box-sizing:border-box}
+  html,body{margin:0;min-height:100%}
+  body{
+    background:radial-gradient(ellipse at 50% 30%,#262626 0%,#0c0c0c 70%,#030303 100%);
+    color:#fff;font-family:'Plus Jakarta Sans',system-ui,'Segoe UI',sans-serif;
+    display:flex;justify-content:center;
+    padding:clamp(18px,6vh,56px) clamp(16px,6vw,72px);
+  }
+  main{width:100%;max-width:720px;text-align:center}
+  h1{font-family:'Firjar','Segoe UI',system-ui,sans-serif;text-transform:uppercase;font-weight:800;letter-spacing:.02em;font-size:clamp(26px,6vw,46px);line-height:1.05;margin:0 0 10px}
+  .sub{font-size:clamp(14px,2.4vw,19px);line-height:1.45;opacity:.9;margin:0 auto 26px;max-width:560px}
+  .pagar{display:flex;flex-direction:column;gap:12px;align-items:center;margin:0 0 26px}
+  a.pay{
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+    width:min(100%,420px);padding:14px 18px;border-radius:14px;
+    background:#0f0f0f;border:1px solid rgba(255,255,255,.28);color:#fff;text-decoration:none;
+    transition:background .15s,border-color .15s,transform .15s;
+  }
+  a.pay:hover,a.pay:focus-visible{background:#1c1c1c;border-color:rgba(255,255,255,.8);transform:translateY(-1px);outline:0}
+  a.pay b{font-family:'Firjar','Segoe UI',system-ui,sans-serif;text-transform:uppercase;letter-spacing:.08em;font-size:clamp(15px,2.6vw,19px)}
+  a.pay small{font-size:clamp(11px,1.8vw,13px);opacity:.75}
+  a.pay.destaque{background:var(--verde);border-color:var(--verde);color:#0a0a0a}
+  a.pay.destaque:hover{background:#33ffc2}
+  .nota{font-size:13px;opacity:.7;margin:0 0 22px}
+  button.voltar{font:inherit;font-weight:800;padding:12px 28px;border-radius:12px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.4);cursor:pointer}
+  button.voltar:hover{background:rgba(255,255,255,.12)}
+  [hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+
+  <!-- =====================  CONTEÚDO (edite aqui)  =====================
+       Cada texto existe em 4 idiomas: data-l="ptbr" | "pt" | "en" | "es". O jogo abre esta página com ?lang=idioma-escolhido
+       e só o texto do idioma atual aparece (qualquer outro idioma cai no ptbr).
+       O botão ✕ no canto superior direito é do jogo e sempre fecha esta janela. -->
+
+  <h1>
+    <span data-l="ptbr">Apoie o Musk Fest</span>
+    <span data-l="pt">Apoie o Musk Fest</span>
+    <span data-l="en">Support Musk Fest</span>
+    <span data-l="es">Apoya Musk Fest</span>
+  </h1>
+
+  <p class="sub">
+    <span data-l="ptbr">Texto de exemplo: explique aqui como as doações ajudam o projeto.</span>
+    <span data-l="pt">Texto de exemplo: explique aqui como os donativos ajudam o projeto.</span>
+    <span data-l="en">Sample text: explain here how donations help the project.</span>
+    <span data-l="es">Texto de ejemplo: explica aquí cómo ayudan las donaciones al proyecto.</span>
+  </p>
+
+  <!-- LINKS DE PAGAMENTO: troque o href e o texto. Para criar outro botão, copie um bloco <a class="pay">...</a> inteiro.
+       Use class="pay destaque" para o botão em verde. -->
+  <div class="pagar">
+    <a class="pay destaque" href="https://example.com/pix">
+      <b>Pix</b>
+      <small>
+        <span data-l="ptbr">Contribuir via Pix</span>
+        <span data-l="pt">Contribuir via Pix</span>
+        <span data-l="en">Donate with Pix</span>
+        <span data-l="es">Donar con Pix</span>
+      </small>
+    </a>
+
+    <a class="pay" href="https://example.com/paypal">
+      <b>PayPal</b>
+      <small>
+        <span data-l="ptbr">Contribuir via PayPal</span>
+        <span data-l="pt">Contribuir via PayPal</span>
+        <span data-l="en">Donate with PayPal</span>
+        <span data-l="es">Donar con PayPal</span>
+      </small>
+    </a>
+  </div>
+
+  <p class="nota">
+    <span data-l="ptbr">Obrigado por jogar!</span>
+    <span data-l="pt">Obrigado por jogar!</span>
+    <span data-l="en">Thanks for playing!</span>
+    <span data-l="es">¡Gracias por jugar!</span>
+  </p>
+
+  <button class="voltar" type="button" data-fechar>
+    <span data-l="ptbr">Voltar ao jogo</span>
+    <span data-l="pt">Voltar ao jogo</span>
+    <span data-l="en">Back to the game</span>
+    <span data-l="es">Volver al juego</span>
+  </button>
+
+</main>
+
+<!-- ===== script: escolhe o idioma e fecha a janela (não precisa mexer) ===== -->
+<script>
+(function(){
+  var q=new URLSearchParams(location.search).get('lang')||'ptbr',ok={ptbr:'pt-BR',pt:'pt-PT',en:'en',es:'es'};
+  var L=ok[q]?q:'ptbr';
+  document.documentElement.lang=ok[L];
+  document.querySelectorAll('[data-l]').forEach(function(e){e.hidden=e.getAttribute('data-l')!==L});
+  function fechar(){try{parent.postMessage('lunar:fechar-doacoes','*')}catch(e){}}
+  document.querySelectorAll('[data-fechar]').forEach(function(b){b.addEventListener('click',fechar)});
+  addEventListener('keydown',function(e){if(e.key==='Escape')fechar()});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurações · Lunar Lander</title>
+<style id="css">body{font-family:system-ui,sans-serif;margin:12px}</style>
+<style>
+/* só desta janela (vem depois do CSS do jogo) */
+#aviso{position:fixed;left:0;right:0;top:0;z-index:99;padding:8px 12px;text-align:center;font:600 14px system-ui,sans-serif;background:#f59e0b;color:#111}
+#raiz{width:100%;display:flex;justify-content:center}
+#raiz .panel{max-width:none;display:grid}   /* no jogo o .panel fica display:none; aqui ele aparece */
+#raiz #fs{display:none}
+</style>
+</head>
+<body>
+<div id="aviso">Aguardando o jogo… (abra o jogo e clique no botão ⚙)</div>
+<div id="raiz"></div>
+<script>
+/* Janela de configurações do Lunar Lander.
+   Não tem lógica de jogo: o painel (HTML + CSS) vem do próprio jogo, e cada mudança é enviada de volta a ele.
+   Tudo passa pelo BroadcastChannel "lunar-config": funciona com refresh em qualquer uma das janelas. */
+(function(){
+  var CH=new BroadcastChannel('lunar-config'),raiz=document.getElementById('raiz'),aviso=document.getElementById('aviso');
+  var temUI=false,ultMsg=Date.now(),recente={},teclas={};
+  function env(m){try{CH.postMessage(m)}catch(e){}}
+  function marca(id){recente[id]=Date.now()}
+
+  CH.onmessage=function(ev){
+    var m=ev.data||{};if(!m.t)return;
+    ultMsg=Date.now();
+    if(m.t==='ui'){
+      document.getElementById('css').textContent=m.css||'';
+      raiz.innerHTML=m.html||'';
+      temUI=true;aplica(m.snap);aviso.style.display='none';
+    }else if(m.t==='snap'){if(temUI)aplica(m.snap)}
+    else if(m.t==='cfgtext')copia(m.texto);
+  };
+
+  /* aplica o estado vindo do jogo; não mexe no que você está editando agora */
+  function aplica(sn){
+    if(!sn)return;
+    var agora=Date.now();
+    for(var id in sn){
+      var e=document.getElementById(id),s=sn[id];if(!e)continue;
+      var seguro=document.activeElement!==e&&!(recente[id]&&agora-recente[id]<800);
+      if('c' in s){if(seguro)e.checked=s.c}
+      else if('h' in s){if(seguro){if(e.innerHTML!==s.h)e.innerHTML=s.h;e.value=s.v}}
+      else if('v' in s){if(seguro)e.value=s.v}
+      else if('t' in s){if(e.textContent!==s.t)e.textContent=s.t}
+      if('d' in s){if(e.disabled!==s.d)e.disabled=s.d;if(e.title!==(s.ti||''))e.title=s.ti||''}
+    }
+  }
+  function valor(t,ev){return {t:'set',id:t.id,ev:ev,v:t.value,c:t.checked}}
+
+  raiz.addEventListener('input',function(e){
+    var t=e.target;if(!t.id||t.type==='checkbox'||t.tagName==='SELECT')return;
+    marca(t.id);env(valor(t,'input'));
+  });
+  raiz.addEventListener('change',function(e){
+    var t=e.target;if(!t.id)return;
+    marca(t.id);env(valor(t,'change'));
+    if(t.type==='range'||t.type==='checkbox')t.blur();          // devolve as setas ao jogo
+  });
+  function existe(n){var o=raiz.querySelectorAll('#pSel option');for(var i=0;i<o.length;i++)if(o[i].value===n)return true;return false}
+  raiz.addEventListener('click',function(e){
+    var b=e.target.closest&&e.target.closest('button');if(!b||!b.id)return;
+    if(b.id==='cp'){env({t:'cfgtext'});return}
+    var ok=false;
+    if(b.id==='pSave'){                                          // as perguntas de confirmação aparecem aqui, nesta janela
+      var n=raiz.querySelector('#pn').value.trim()||raiz.querySelector('#pSel').value;
+      if(n&&existe(n)){if(!confirm('Já existe "'+n+'". Sobrescrever?'))return;ok=true}
+    }
+    if(b.id==='pDel'){
+      var d=raiz.querySelector('#pSel').value;if(!d)return;
+      if(!confirm('Apagar "'+d+'"?'))return;ok=true;
+    }
+    env({t:'click',id:b.id,ok:ok});
+    b.blur();
+  });
+  raiz.addEventListener('dblclick',function(e){if(e.target.id==='pSel')env({t:'click',id:'pLoad'})});
+
+  function copia(t){
+    var b=raiz.querySelector('#cp');
+    function ok(){if(b){b.textContent='Copiado!';setTimeout(function(){b.textContent='Copiar configuração'},1500)}}
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(t).then(ok,function(){window.prompt('Copie e cole no config.js:',t)});
+    else window.prompt('Copie e cole no config.js:',t);
+  }
+
+  /* teclas do jogo (setas, A, D, R...) continuam funcionando com esta janela em foco */
+  function tecla(e,baixo){
+    var t=e.target,tg=t&&t.tagName;
+    if(tg==='SELECT'||tg==='TEXTAREA'||(tg==='INPUT'&&t.type==='text'))return;
+    if(tg==='INPUT'&&(/^Arrow/.test(e.key)||e.key===' '))return;   // setas num slider em foco ajustam o slider
+    if(e.metaKey||e.ctrlKey||e.altKey)return;
+    if(/^Arrow/.test(e.key)||e.key===' ')e.preventDefault();
+    if(baixo)teclas[e.key]=1;else delete teclas[e.key];
+    env({t:baixo?'kd':'ku',key:e.key});
+  }
+  window.addEventListener('keydown',function(e){tecla(e,true)});
+  window.addEventListener('keyup',function(e){tecla(e,false)});
+  window.addEventListener('blur',function(){for(var k in teclas)env({t:'ku',key:k});teclas={}});   // nada de tecla "presa"
+
+  /* conexão: avisa o jogo que está aqui e confere se ele responde */
+  env({t:'hello'});
+  setInterval(function(){
+    env({t:'ping'});
+    var off=!temUI||Date.now()-ultMsg>4500;
+    aviso.style.display=off?'block':'none';
+    aviso.textContent=temUI?'Jogo desconectado… aguardando (se recarregou a página, é só esperar)':'Aguardando o jogo… (abra o jogo e clique no botão ⚙)';
+  },1500);
+  window.addEventListener('beforeunload',function(){env({t:'bye'})});
+  window.addEventListener('pagehide',function(){env({t:'bye'})});
+
+  /* lembra posição e tamanho desta janela para a próxima vez */
+  setInterval(function(){try{localStorage.setItem('lunarPainelPos',JSON.stringify({x:window.screenX,y:window.screenY,w:window.outerWidth,h:window.outerHeight}))}catch(e){}},1000);
+})();
+</script>
+</body>
+</html>

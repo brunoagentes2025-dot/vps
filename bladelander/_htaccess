@@ -1,0 +1,23 @@
+# Renomeie este arquivo para  .htaccess  e coloque na MESMA pasta do index.html
+# (localhost: C:\xampp\htdocs\muskfest\   |   produção: raiz do site)
+
+RewriteEngine On
+
+# Local (localhost/muskfest/): deixe como está.
+# No lançamento, com o jogo na raiz do domínio: troque por  RewriteBase /
+RewriteBase /muskfest/
+
+# Qualquer endereço que NÃO seja arquivo nem pasta real e tenha só letras, números e _
+# (até 15 caracteres, igual ao @ do jogo) vai para o perfil.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([A-Za-z0-9_]{1,15})/?$ perfil.php?u=$1 [L]
+
+# --- usuários online (api/online.json) ---
+# O jogo lê este arquivo a cada 3 s. "no-cache" = o navegador pergunta se mudou e o Apache responde 304 quase sem custo.
+# (precisa do mod_headers; no XAMPP já vem ligado. Se usar Cloudflare/CDN, crie uma regra para NÃO guardar em cache este arquivo.)
+<IfModule mod_headers.c>
+  <FilesMatch "^online\.json$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+</IfModule>
