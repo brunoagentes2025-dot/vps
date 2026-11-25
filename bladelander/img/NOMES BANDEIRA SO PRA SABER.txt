@@ -1,0 +1,3 @@
+ptbr, pt, en, es
+
+de, fr, it, hi, zh, ja e o pt de Portugal
